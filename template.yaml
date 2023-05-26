@@ -70,6 +70,28 @@ Resources:
           Properties:
             Path: /
             Method: POST
+  deleteByIdFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/delete-by-id.deleteByIdHandler
+      Runtime: nodejs18.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: A simple example includes a HTTP delete method to delete one item by id from a DynamoDB table.
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref CrudTable
+      Environment:
+        Variables:
+          CRUD_TABLE: !Ref CrudTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /{id}
+            Method: DELETE
   CrudTable:
     Type: AWS::Serverless::SimpleTable
     Properties:
