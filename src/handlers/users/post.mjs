@@ -1,23 +1,31 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
+import { v4 as uuid } from 'uuid';
 const client = new DynamoDBClient({});
 const ddbDocClient = DynamoDBDocumentClient.from(client);
 
-const tableName = process.env.CRUD_TABLE;
+const tableName = process.env.USERS_TABLE;
 
-export const putItemHandler = async (event) => {
+export const postHandler = async (event) => {
     if (event.httpMethod !== 'POST') {
         throw new Error(`postMethod only accepts POST method, you tried: ${event.httpMethod} method.`);
     }
     console.info('received:', event);
 
     const body = JSON.parse(event.body);
-    const id = body.id;
-    const name = body.name;
+    const id = uuid();
+    const timestamp = new Date().getTime();
+    const firstName = body.firstName;
+    const lastName = body.lastName;
 
     var params = {
         TableName : tableName,
-        Item: { id : id, name: name }
+        Item: {
+            id : id,
+            firstName: firstName,
+            lastName: lastName,
+            created: timestamp
+        }
     };
 
     try {

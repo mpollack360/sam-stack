@@ -4,95 +4,95 @@ Description: >-
 Transform:
 - AWS::Serverless-2016-10-31
 Resources:
-  getAllItemsFunction:
+  getAllUsersFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/handlers/get-all-items.getAllItemsHandler
+      Handler: src/handlers/users/get-all.getAllHandler
       Runtime: nodejs18.x
       Architectures:
         - x86_64
       MemorySize: 128
       Timeout: 100
-      Description: A simple example includes a HTTP get method to get all items from a DynamoDB table.
+      Description: Returns all users from a DynamoDB table.
       Policies:
         - DynamoDBCrudPolicy:
-            TableName: !Ref CrudTable
+            TableName: !Ref UsersTable
       Environment:
         Variables:
-          CRUD_TABLE: !Ref CrudTable
+          USERS_TABLE: !Ref UsersTable
       Events:
         Api:
           Type: Api
           Properties:
-            Path: /
+            Path: /users/
             Method: GET
-  getByIdFunction:
+  getUserFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/handlers/get-by-id.getByIdHandler
+      Handler: src/handlers/users/get.getHandler
       Runtime: nodejs18.x
       Architectures:
         - x86_64
       MemorySize: 128
       Timeout: 100
-      Description: A simple example includes a HTTP get method to get one item by id from a DynamoDB table.
+      Description: Returns one user by id from a DynamoDB table.
       Policies:
         - DynamoDBCrudPolicy:
-            TableName: !Ref CrudTable
+            TableName: !Ref UsersTable
       Environment:
         Variables:
-          CRUD_TABLE: !Ref CrudTable
+          USERS_TABLE: !Ref UsersTable
       Events:
         Api:
           Type: Api
           Properties:
-            Path: /{id}
+            Path: /users/{id}
             Method: GET
-  putItemFunction:
+  postUserFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/handlers/put-item.putItemHandler
+      Handler: src/handlers/users/post.postHandler
       Runtime: nodejs18.x
       Architectures:
         - x86_64
       MemorySize: 128
       Timeout: 100
-      Description: A simple example includes a HTTP post method to add one item to a DynamoDB table.
+      Description: Adds one user to a DynamoDB table.
       Policies:
         - DynamoDBCrudPolicy:
-            TableName: !Ref CrudTable
+            TableName: !Ref UsersTable
       Environment:
         Variables:
-          CRUD_TABLE: !Ref CrudTable
+          USERS_TABLE: !Ref UsersTable
       Events:
         Api:
           Type: Api
           Properties:
-            Path: /
+            Path: /users/
             Method: POST
-  deleteByIdFunction:
+  deleteUserFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/handlers/delete-by-id.deleteByIdHandler
+      Handler: src/handlers/users/delete.deleteHandler
       Runtime: nodejs18.x
       Architectures:
         - x86_64
       MemorySize: 128
       Timeout: 100
-      Description: A simple example includes a HTTP delete method to delete one item by id from a DynamoDB table.
+      Description: Delete one user by id from a DynamoDB table.
       Policies:
         - DynamoDBCrudPolicy:
-            TableName: !Ref CrudTable
+            TableName: !Ref UsersTable
       Environment:
         Variables:
-          CRUD_TABLE: !Ref CrudTable
+          USERS_TABLE: !Ref UsersTable
       Events:
         Api:
           Type: Api
           Properties:
-            Path: /{id}
+            Path: /users/{id}
             Method: DELETE
-  CrudTable:
+  UsersTable:
     Type: AWS::Serverless::SimpleTable
     Properties:
       PrimaryKey:

@@ -3,11 +3,11 @@ import { DynamoDBDocumentClient, ScanCommand } from '@aws-sdk/lib-dynamodb';
 const client = new DynamoDBClient({});
 const ddbDocClient = DynamoDBDocumentClient.from(client);
 
-const tableName = process.env.CRUD_TABLE;
+const tableName = process.env.USERS_TABLE;
 
-export const getAllItemsHandler = async (event) => {
+export const getAllHandler = async (event) => {
     if (event.httpMethod !== 'GET') {
-        throw new Error(`getAllItems only accept GET method, you tried: ${event.httpMethod}`);
+        throw new Error(`getAll only accept GET method, you tried: ${event.httpMethod}`);
     }
     console.info('received:', event);
 
